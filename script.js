@@ -16,7 +16,11 @@ const CONFIG = {
   // Vengono inviati solo nella mail di conferma (vedi Codice.gs),
   // così non restano pubblici nel sorgente della pagina.
 
-  QUOTA: "€20"
+  QUOTA: "€20",
+
+  // Scadenze pagamento
+  SCADENZA: "12 agosto 2026",
+  SCADENZA_CONTANTI: "10 agosto 2026"
 };
 
 /* ---------------------------------------------------------
@@ -26,15 +30,16 @@ const PAY_DETAILS = {
   "PayPal": () => `
     <p><strong>PayPal</strong> — invia ${CONFIG.QUOTA} a:</p>
     <p><a href="${CONFIG.PAYPAL_LINK}" target="_blank" rel="noopener">${CONFIG.PAYPAL_LINK}</a></p>
-    <p>Trovi il link anche nella mail di conferma.</p>`,
+    <p class="paybox__deadline">Entro il ${CONFIG.SCADENZA}</p>`,
 
   "Bonifico bancario": () => `
     <p><strong>Bonifico bancario</strong> — ${CONFIG.QUOTA}</p>
-    <p>Intestatario, IBAN e causale arrivano nella mail di conferma, subito dopo la prenotazione.</p>`,
+    <p>Intestatario, IBAN e causale arrivano nella mail di conferma, subito dopo la prenotazione.</p>
+    <p class="paybox__deadline">Entro il ${CONFIG.SCADENZA}</p>`,
 
-  "Contanti in spiaggia": () => `
-    <p><strong>Contanti in spiaggia</strong></p>
-    <p>Porti ${CONFIG.QUOTA} la sera del 14 agosto e paghi all'ingresso. Meglio con l'importo esatto.</p>`
+  "Contanti": () => `
+    <p><strong>Contanti</strong> — ${CONFIG.QUOTA} da consegnare a mano a Mattia.</p>
+    <p class="paybox__deadline paybox__deadline--red">Entro il ${CONFIG.SCADENZA_CONTANTI}. Dopo questa data i contanti non sono più accettati.</p>`
 };
 
 /* ---------------------------------------------------------
@@ -108,8 +113,17 @@ function validate(data) {
 /* ---------------------------------------------------------
    6) Invio
    --------------------------------------------------------- */
+const TIMEOUT_MS = 20000;   // oltre 20 secondi consideriamo la richiesta persa
+let invioInCorso = false;
+
+function setLoading(on) {
+  submitBtn.classList.toggle("is-loading", on);
+  submitBtn.querySelector(".btn__label").textContent = on ? "Invio in corso" : "Prenota";
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  if (invioInCorso) return;          // niente doppi invii
   formError.hidden = true;
 
   const fd = new FormData(form);
@@ -128,8 +142,12 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  submitBtn.classList.add("is-loading");
-  submitBtn.querySelector(".btn__label").textContent = "Invio in corso";
+  invioInCorso = true;
+  setLoading(true);
+
+  // Tempo massimo: senza questo, se la risposta non arriva la rotella gira all'infinito
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
 
   try {
     // Content-Type text/plain: evita il preflight CORS con Apps Script
@@ -137,20 +155,35 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(data),
-      redirect: "follow"
+      redirect: "follow",
+      signal: ctrl.signal
     });
 
-    const out = await res.json();
+    if (!res.ok) throw new Error("HTTP " + res.status);
+
+    const testo = await res.text();
+    let out;
+    try {
+      out = JSON.parse(testo);
+    } catch (_) {
+      // Risposta non JSON: quasi sempre il Web App non è pubblicato su "Chiunque"
+      throw new Error("Risposta non valida dal server");
+    }
     if (!out.ok) throw new Error(out.error || "Errore sconosciuto");
 
     showDone(data);
   } catch (err) {
-    console.error(err);
+    console.error("[HACE FALÒ] invio fallito:", err);
     formError.textContent =
-      "Non siamo riusciti a registrare la prenotazione. Riprova tra un momento oppure scrivi a Mattia al 392 055 9059.";
+      err.name === "AbortError"
+        ? "Il server non ha risposto in tempo. Controlla la connessione e riprova: se la prenotazione fosse già passata, ti arriva comunque la mail."
+        : "Non siamo riusciti a registrare la prenotazione. Riprova tra un momento oppure scrivi a Mattia al 392 055 9059.";
     formError.hidden = false;
-    submitBtn.classList.remove("is-loading");
-    submitBtn.querySelector(".btn__label").textContent = "Prenota";
+  } finally {
+    // Succeda quel che succeda, la rotella si ferma sempre qui
+    clearTimeout(timer);
+    invioInCorso = false;
+    setLoading(false);
   }
 });
 
@@ -158,9 +191,9 @@ function showDone(data) {
   form.hidden = true;
   done.hidden = false;
   doneNote.textContent =
-    data.pagamento === "Contanti in spiaggia"
-      ? "Hai scelto il pagamento in contanti: porta €20 la sera del 14 agosto."
-      : `Metodo scelto: ${data.pagamento}. I dati per il pagamento sono nella mail.`;
+    data.pagamento === "Contanti"
+      ? "Hai scelto i contanti: consegna i €20 entro il 10 agosto."
+      : `Metodo scelto: ${data.pagamento}. I dati per il pagamento sono nella mail. Scadenza: 12 agosto.`;
   done.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
@@ -168,8 +201,7 @@ againBtn.addEventListener("click", () => {
   form.reset();
   paybox.hidden = true;
   paybox.innerHTML = "";
-  submitBtn.classList.remove("is-loading");
-  submitBtn.querySelector(".btn__label").textContent = "Prenota";
+  setLoading(false);
   done.hidden = true;
   form.hidden = false;
   form.elements.nome.focus();
