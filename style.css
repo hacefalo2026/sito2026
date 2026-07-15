@@ -1,6 +1,6 @@
 /* =========================================================
-   HACE FALÒ 2026 — style.css
-   Palette: notte di mare + brace del falò
+   HACE FALÃ’ 2026 â€” style.css
+   Palette: notte di mare + brace del falÃ²
    ========================================================= */
 
 :root {
@@ -205,7 +205,7 @@ button, input { font: inherit; color: inherit; }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
 /* =========================================================
-   INFO — biglietto
+   INFO â€” biglietto
    ========================================================= */
 .info {
   max-width: var(--wrap);
@@ -360,8 +360,36 @@ button, input { font: inherit; color: inherit; }
 }
 .paybox a { color: var(--fiamma); }
 
-.form__hint { font-size: .82rem; color: var(--testo-soft); text-align: center; }
 .form__error { text-align: center; }
+
+/* Scadenza pagamento */
+.deadline {
+  margin-top: .8rem;
+  padding: .85rem 1rem .85rem 1.1rem;
+  border-left: 3px solid var(--fiamma);
+  border-radius: 0 8px 8px 0;
+  background: rgba(255, 176, 58, .1);
+  font-size: .92rem;
+  color: var(--testo);
+}
+.deadline strong { color: var(--fiamma); }
+
+.pay__warn {
+  margin-top: .2rem;
+  font-size: .86rem;
+  line-height: 1.45;
+  color: var(--testo-soft);
+  padding-left: 1.1rem;
+  border-left: 2px solid rgba(255, 90, 31, .55);
+}
+.pay__warn strong { color: var(--brace); }
+
+.paybox__deadline {
+  margin-top: .6rem !important;
+  font-weight: 600;
+  color: var(--fiamma) !important;
+}
+.paybox__deadline--red { color: var(--brace) !important; }
 
 /* Conferma */
 .done {
@@ -441,7 +469,7 @@ button, input { font: inherit; color: inherit; }
 }
 
 /* =========================================================
-   ACCESSIBILITÀ — motion
+   ACCESSIBILITÃ€ â€” motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
