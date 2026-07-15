@@ -1,6 +1,6 @@
 /* =========================================================
-   HACE FALÃ’ 2026 â€” style.css
-   Palette: notte di mare + brace del falÃ²
+   HACE FALÒ 2026 — style.css
+   Palette: notte di mare + brace del falò
    ========================================================= */
 
 :root {
@@ -131,8 +131,14 @@ button, input { font: inherit; color: inherit; }
 .hero__overlay {
   position: absolute; inset: 0; z-index: 1;
   background:
-    radial-gradient(120% 90% at 50% 78%, rgba(255, 90, 31, .28), transparent 58%),
-    linear-gradient(180deg, rgba(5, 13, 20, .72) 0%, rgba(5, 13, 20, .58) 45%, rgba(5, 13, 20, .94) 100%);
+    /* Alone caldo dal basso: dà il falò senza spegnere il mare */
+    radial-gradient(120% 80% at 50% 88%, rgba(255, 90, 31, .30), transparent 55%),
+    /* Velo leggero in alto, più deciso solo dietro al testo e in fondo */
+    linear-gradient(180deg,
+      rgba(5, 13, 20, .30) 0%,
+      rgba(5, 13, 20, .18) 32%,
+      rgba(5, 13, 20, .52) 72%,
+      rgba(5, 13, 20, .88) 100%);
 }
 .hero__embers {
   position: absolute; inset: 0; z-index: 2;
@@ -144,6 +150,8 @@ button, input { font: inherit; color: inherit; }
   max-width: var(--wrap);
   margin-inline: auto;
   padding-block: 6rem 8rem;
+  /* Il velo è leggero: l'ombra tiene il testo leggibile su qualunque fotogramma */
+  text-shadow: 0 2px 20px rgba(5, 13, 20, .75), 0 1px 3px rgba(5, 13, 20, .5);
 }
 .hero__title {
   font-family: var(--display);
@@ -153,6 +161,9 @@ button, input { font: inherit; color: inherit; }
   letter-spacing: -.035em;
   margin: .5rem 0 .9rem;
   text-wrap: balance;
+  /* Il testo con gradiente è trasparente: serve drop-shadow, non text-shadow */
+  text-shadow: none;
+  filter: drop-shadow(0 3px 18px rgba(5, 13, 20, .8));
 }
 .fire {
   background: linear-gradient(105deg, var(--brace) 0%, var(--fiamma) 42%, #FFE9A8 55%, var(--brace) 100%);
@@ -205,7 +216,7 @@ button, input { font: inherit; color: inherit; }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
 /* =========================================================
-   INFO â€” biglietto
+   INFO — biglietto
    ========================================================= */
 .info {
   max-width: var(--wrap);
@@ -374,23 +385,6 @@ button, input { font: inherit; color: inherit; }
 }
 .deadline strong { color: var(--fiamma); }
 
-.pay__warn {
-  margin-top: .2rem;
-  font-size: .86rem;
-  line-height: 1.45;
-  color: var(--testo-soft);
-  padding-left: 1.1rem;
-  border-left: 2px solid rgba(255, 90, 31, .55);
-}
-.pay__warn strong { color: var(--brace); }
-
-.paybox__deadline {
-  margin-top: .6rem !important;
-  font-weight: 600;
-  color: var(--fiamma) !important;
-}
-.paybox__deadline--red { color: var(--brace) !important; }
-
 /* Conferma */
 .done {
   border: 1px solid var(--linea);
@@ -469,7 +463,7 @@ button, input { font: inherit; color: inherit; }
 }
 
 /* =========================================================
-   ACCESSIBILITÃ€ â€” motion
+   ACCESSIBILITÀ — motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
