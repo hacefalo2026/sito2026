@@ -61,7 +61,6 @@
         <div class="cell">
           <p class="cell__label">Orario</p>
           <p class="cell__value">21:00 — 06:00</p>
-          <p class="cell__note">del 15 agosto 2026</p>
         </div>
       </div>
       <div class="ticket__perf" aria-hidden="true"></div>
@@ -110,6 +109,11 @@
         <p class="field__error" data-error-for="telefono"></p>
       </div>
 
+      <p class="deadline">
+        Il pagamento va effettuato <strong>entro e non oltre il 12 agosto 2026</strong>.
+        Se paghi in contanti, la scadenza è il <strong>10 agosto</strong>.
+      </p>
+
       <fieldset class="pay">
         <legend>Come vuoi pagare</legend>
 
@@ -130,12 +134,17 @@
         </label>
 
         <label class="pay__opt">
-          <input type="radio" name="pagamento" value="Contanti in spiaggia">
+          <input type="radio" name="pagamento" value="Contanti">
           <span class="pay__box">
-            <span class="pay__name">Contanti in spiaggia</span>
-            <span class="pay__desc">Paghi €20 la sera stessa all'ingresso</span>
+            <span class="pay__name">Contanti</span>
+            <span class="pay__desc">€20 a mano, entro il 10 agosto</span>
           </span>
         </label>
+
+        <p class="pay__warn">
+          Pagamento in contanti entro il <strong>10 agosto</strong> (€20).
+          Dopo il 10 agosto questa modalità non è più disponibile.
+        </p>
 
         <p class="field__error" data-error-for="pagamento"></p>
       </fieldset>
@@ -149,13 +158,12 @@
       </button>
 
       <p class="form__error" id="formError" role="alert" hidden></p>
-      <p class="form__hint">Nessun pagamento online in questa pagina: prenoti qui, paghi dopo.</p>
     </form>
 
     <!-- Schermata di conferma -->
     <div class="done" id="done" hidden>
       <div class="done__mark" aria-hidden="true"></div>
-      <h2>Prenotazione registrata correttamente</h2>
+      <h2>Prenotazione effettuata correttamente.</h2>
       <p>Controlla la tua email per completare il pagamento.</p>
       <p class="done__note" id="doneNote"></p>
       <button class="btn btn--ghost" type="button" id="again">Registra un'altra persona</button>
