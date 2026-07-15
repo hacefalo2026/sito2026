@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HACE FALÒ 2026 — La notte di Ferragosto sulla spiaggia</title>
+<meta name="description" content="14 agosto 2026, Spiaggia Libera Vascello d'Oro. Dalle 21:00 all'alba. Quota €20. Prenota il tuo posto.">
+<meta name="theme-color" content="#050D14">
+
+<!-- Social -->
+<meta property="og:title" content="HACE FALÒ 2026">
+<meta property="og:description" content="La notte di Ferragosto sulla spiaggia. 14 agosto 2026, Spiaggia Libera Vascello d'Oro.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/images/hero-poster.jpg">
+
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+
+<!-- Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#prenota">Vai alla prenotazione</a>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <video class="hero__video" autoplay muted loop playsinline preload="metadata"
+         poster="assets/images/hero-poster.jpg">
+    <!-- Sostituisci con il tuo video: assets/video/hero.mp4 -->
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <canvas class="hero__embers" id="embers" aria-hidden="true"></canvas>
+
+  <div class="hero__content">
+    <p class="eyebrow reveal">14.08.2026 — Spiaggia Libera Vascello d'Oro</p>
+    <h1 class="hero__title reveal">HACE <span class="fire">FALÒ</span> 2026</h1>
+    <p class="hero__sub reveal">La notte di Ferragosto sulla spiaggia.</p>
+    <a class="btn btn--primary reveal" href="#prenota">Prenota il tuo posto</a>
+  </div>
+
+  <a class="hero__scroll" href="#info" aria-label="Scorri alle informazioni">
+    <span></span>
+  </a>
+</header>
+
+<main>
+
+  <!-- ============ INFO ============ -->
+  <section class="info" id="info">
+    <div class="ticket">
+      <div class="ticket__row">
+        <div class="cell">
+          <p class="cell__label">Data</p>
+          <p class="cell__value">14 Agosto 2026</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label">Orario</p>
+          <p class="cell__value">21:00 — 06:00</p>
+          <p class="cell__note">del 15 agosto 2026</p>
+        </div>
+      </div>
+      <div class="ticket__perf" aria-hidden="true"></div>
+      <div class="ticket__row">
+        <div class="cell">
+          <p class="cell__label">Luogo</p>
+          <p class="cell__value">Spiaggia Libera Vascello d'Oro</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label">Quota</p>
+          <p class="cell__value cell__value--price">€20</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRENOTAZIONE ============ -->
+  <section class="book" id="prenota">
+    <div class="book__head">
+      <p class="eyebrow">Prenotazione</p>
+      <h2>Prendi il tuo posto attorno al fuoco</h2>
+    </div>
+
+    <form class="form" id="form" novalidate>
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" type="text" autocomplete="given-name" required>
+        <p class="field__error" data-error-for="nome"></p>
+      </div>
+
+      <div class="field">
+        <label for="cognome">Cognome</label>
+        <input id="cognome" name="cognome" type="text" autocomplete="family-name" required>
+        <p class="field__error" data-error-for="cognome"></p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
+        <p class="field__error" data-error-for="email"></p>
+      </div>
+
+      <div class="field">
+        <label for="telefono">Telefono</label>
+        <input id="telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required>
+        <p class="field__error" data-error-for="telefono"></p>
+      </div>
+
+      <fieldset class="pay">
+        <legend>Come vuoi pagare</legend>
+
+        <label class="pay__opt">
+          <input type="radio" name="pagamento" value="PayPal" required>
+          <span class="pay__box">
+            <span class="pay__name">PayPal</span>
+            <span class="pay__desc">Ricevi il link nella mail di conferma</span>
+          </span>
+        </label>
+
+        <label class="pay__opt">
+          <input type="radio" name="pagamento" value="Bonifico bancario">
+          <span class="pay__box">
+            <span class="pay__name">Bonifico bancario</span>
+            <span class="pay__desc">Ricevi IBAN e intestatario nella mail</span>
+          </span>
+        </label>
+
+        <label class="pay__opt">
+          <input type="radio" name="pagamento" value="Contanti in spiaggia">
+          <span class="pay__box">
+            <span class="pay__name">Contanti in spiaggia</span>
+            <span class="pay__desc">Paghi €20 la sera stessa all'ingresso</span>
+          </span>
+        </label>
+
+        <p class="field__error" data-error-for="pagamento"></p>
+      </fieldset>
+
+      <!-- Dettagli pagamento: compilali in script.js (CONFIG) -->
+      <div class="paybox" id="paybox" hidden></div>
+
+      <button class="btn btn--primary btn--full" type="submit" id="submit">
+        <span class="btn__label">Prenota</span>
+        <span class="btn__spinner" aria-hidden="true"></span>
+      </button>
+
+      <p class="form__error" id="formError" role="alert" hidden></p>
+      <p class="form__hint">Nessun pagamento online in questa pagina: prenoti qui, paghi dopo.</p>
+    </form>
+
+    <!-- Schermata di conferma -->
+    <div class="done" id="done" hidden>
+      <div class="done__mark" aria-hidden="true"></div>
+      <h2>Prenotazione registrata correttamente</h2>
+      <p>Controlla la tua email per completare il pagamento.</p>
+      <p class="done__note" id="doneNote"></p>
+      <button class="btn btn--ghost" type="button" id="again">Registra un'altra persona</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p class="foot__brand">HACE FALÒ</p>
+  <p class="foot__contact">
+    Informazioni: Mattia — <a href="tel:+393920559059">392 055 9059</a>
+  </p>
+  <p class="foot__staff">Staff HACE FALÒ · Ferragosto 2026</p>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+/* =========================================================
+   HACE FALÒ 2026 — style.css
+   Palette: notte di mare + brace del falò
+   ========================================================= */
+
+:root {
+  /* Colori */
+  --notte:      #050D14;
+  --mare-fondo: #0A2733;
+  --mare:       #12707E;
+  --schiuma:    #7FD8D0;
+  --sabbia:     #E7D7B9;
+  --brace:      #FF5A1F;
+  --fiamma:     #FFB03A;
+  --testo:      #F3EEE4;
+  --testo-soft: rgba(243, 238, 228, 0.62);
+  --linea:      rgba(231, 215, 185, 0.16);
+
+  /* Type */
+  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --body:    "Inter Tight", system-ui, -apple-system, sans-serif;
+  --mono:    "Space Mono", ui-monospace, monospace;
+
+  /* Layout */
+  --wrap: 62rem;
+  --pad: clamp(1.25rem, 5vw, 2.5rem);
+  --radius: 14px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--notte);
+  color: var(--testo);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, video, canvas { display: block; max-width: 100%; }
+h1, h2, p, figure, fieldset { margin: 0; }
+fieldset { border: 0; padding: 0; min-width: 0; }
+button, input { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--fiamma);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 99;
+  background: var(--fiamma); color: var(--notte);
+  padding: .75rem 1rem; font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { left: .5rem; top: .5rem; }
+
+/* ---------- Utility ---------- */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--schiuma);
+}
+
+/* ---------- Bottoni ---------- */
+.btn {
+  --btn-bg: var(--brace);
+  position: relative;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  gap: .6rem;
+  padding: 1rem 1.9rem;
+  border: 0; border-radius: 100px;
+  background: var(--btn-bg);
+  color: #16060A;
+  font-weight: 600;
+  letter-spacing: .01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .25s ease, filter .2s ease;
+  box-shadow: 0 10px 30px -8px rgba(255, 90, 31, .55);
+}
+.btn--primary {
+  background: linear-gradient(100deg, var(--brace), var(--fiamma));
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 16px 38px -10px rgba(255, 140, 40, .7); }
+.btn:active { transform: translateY(0); }
+.btn--full { width: 100%; padding-block: 1.15rem; }
+.btn--ghost {
+  background: transparent;
+  color: var(--testo);
+  border: 1px solid var(--linea);
+  box-shadow: none;
+}
+.btn--ghost:hover { border-color: var(--schiuma); box-shadow: none; }
+
+.btn__spinner {
+  display: none;
+  width: 1.05em; height: 1.05em;
+  border: 2px solid rgba(22, 6, 10, .3);
+  border-top-color: #16060A;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+.btn.is-loading { pointer-events: none; filter: saturate(.7); }
+.btn.is-loading .btn__spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 var(--pad);
+}
+.hero__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero__overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(120% 90% at 50% 78%, rgba(255, 90, 31, .28), transparent 58%),
+    linear-gradient(180deg, rgba(5, 13, 20, .72) 0%, rgba(5, 13, 20, .58) 45%, rgba(5, 13, 20, .94) 100%);
+}
+.hero__embers {
+  position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+}
+.hero__content {
+  position: relative; z-index: 3;
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-block: 6rem 8rem;
+}
+.hero__title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(3rem, 13vw, 8.5rem);
+  line-height: .88;
+  letter-spacing: -.035em;
+  margin: .5rem 0 .9rem;
+  text-wrap: balance;
+}
+.fire {
+  background: linear-gradient(105deg, var(--brace) 0%, var(--fiamma) 42%, #FFE9A8 55%, var(--brace) 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: heat 7s ease-in-out infinite;
+}
+@keyframes heat {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+.hero__sub {
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+  color: var(--testo-soft);
+  margin-bottom: 2.2rem;
+  max-width: 32ch;
+}
+
+.hero__scroll {
+  position: absolute;
+  z-index: 3;
+  bottom: 2rem; left: 50%;
+  translate: -50% 0;
+  width: 26px; height: 42px;
+  border: 1px solid var(--linea);
+  border-radius: 100px;
+}
+.hero__scroll span {
+  position: absolute; top: 8px; left: 50%;
+  translate: -50% 0;
+  width: 3px; height: 7px;
+  border-radius: 3px;
+  background: var(--schiuma);
+  animation: drop 1.9s ease-in-out infinite;
+}
+@keyframes drop {
+  0%   { opacity: 0; transform: translateY(0); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(16px); }
+}
+
+/* Reveal iniziale */
+.reveal { opacity: 0; transform: translateY(14px); animation: rise .8s cubic-bezier(.2,.7,.3,1) forwards; }
+.hero__content .reveal:nth-child(1) { animation-delay: .10s; }
+.hero__content .reveal:nth-child(2) { animation-delay: .20s; }
+.hero__content .reveal:nth-child(3) { animation-delay: .34s; }
+.hero__content .reveal:nth-child(4) { animation-delay: .46s; }
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* =========================================================
+   INFO — biglietto
+   ========================================================= */
+.info {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 9vw, 6rem) var(--pad);
+}
+.ticket {
+  border: 1px solid var(--linea);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(18, 112, 126, .14), rgba(10, 39, 51, .35));
+  overflow: hidden;
+}
+.ticket__row { display: grid; grid-template-columns: 1fr 1fr; }
+.ticket__row .cell + .cell { border-left: 1px solid var(--linea); }
+.ticket__perf {
+  height: 1px;
+  background: repeating-linear-gradient(90deg,
+    var(--linea) 0 8px, transparent 8px 16px);
+}
+.cell { padding: clamp(1.3rem, 4vw, 2.2rem); }
+.cell__label {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--schiuma);
+  margin-bottom: .6rem;
+}
+.cell__value {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 3.2vw, 1.65rem);
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+.cell__value--price {
+  background: linear-gradient(100deg, var(--brace), var(--fiamma));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+}
+.cell__note { font-size: .84rem; color: var(--testo-soft); margin-top: .25rem; }
+
+/* =========================================================
+   PRENOTAZIONE
+   ========================================================= */
+.book {
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 0 var(--pad) clamp(4rem, 10vw, 7rem);
+}
+.book__head { margin-bottom: 2rem; }
+.book__head h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.8rem, 6vw, 2.7rem);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  margin-top: .6rem;
+  text-wrap: balance;
+}
+
+.form { display: grid; gap: 1.1rem; }
+
+.field label {
+  display: block;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--testo-soft);
+  margin-bottom: .45rem;
+}
+.field input {
+  width: 100%;
+  padding: .95rem 1rem;
+  background: rgba(231, 215, 185, .05);
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  transition: border-color .18s ease, background .18s ease;
+}
+.field input:hover { border-color: rgba(127, 216, 208, .4); }
+.field input:focus { outline: none; border-color: var(--schiuma); background: rgba(231, 215, 185, .08); }
+.field input.is-invalid { border-color: #FF6B6B; }
+.field__error, .form__error {
+  color: #FF8A8A;
+  font-size: .82rem;
+  margin-top: .4rem;
+  min-height: 0;
+}
+.field__error:empty { display: none; }
+
+/* Metodo di pagamento */
+.pay { display: grid; gap: .6rem; margin-top: .6rem; }
+.pay legend {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--testo-soft);
+  margin-bottom: .55rem;
+  padding: 0;
+}
+.pay__opt { display: block; cursor: pointer; }
+.pay__opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.pay__box {
+  display: block;
+  padding: .9rem 1rem .9rem 2.9rem;
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  position: relative;
+  transition: border-color .18s ease, background .18s ease;
+}
+.pay__box::before {
+  content: "";
+  position: absolute; left: 1rem; top: 1.15rem;
+  width: 16px; height: 16px;
+  border: 1px solid rgba(231, 215, 185, .45);
+  border-radius: 50%;
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+.pay__opt:hover .pay__box { border-color: rgba(127, 216, 208, .4); }
+.pay__opt input:checked + .pay__box {
+  border-color: var(--fiamma);
+  background: rgba(255, 176, 58, .08);
+}
+.pay__opt input:checked + .pay__box::before {
+  border-color: var(--fiamma);
+  box-shadow: inset 0 0 0 4px var(--brace);
+}
+.pay__opt input:focus-visible + .pay__box { outline: 2px solid var(--fiamma); outline-offset: 3px; }
+.pay__name { display: block; font-weight: 600; }
+.pay__desc { display: block; font-size: .85rem; color: var(--testo-soft); }
+
+/* Box dettagli pagamento */
+.paybox {
+  border: 1px dashed var(--linea);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: rgba(18, 112, 126, .1);
+  font-size: .92rem;
+  animation: rise .35s ease both;
+}
+.paybox p { margin: 0 0 .35rem; color: var(--testo-soft); }
+.paybox strong { color: var(--testo); }
+.paybox code {
+  font-family: var(--mono);
+  font-size: .85em;
+  color: var(--schiuma);
+  word-break: break-all;
+}
+.paybox a { color: var(--fiamma); }
+
+.form__hint { font-size: .82rem; color: var(--testo-soft); text-align: center; }
+.form__error { text-align: center; }
+
+/* Conferma */
+.done {
+  border: 1px solid var(--linea);
+  border-radius: var(--radius);
+  padding: clamp(2rem, 6vw, 3rem);
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255, 176, 58, .1), rgba(10, 39, 51, .3));
+  animation: rise .5s ease both;
+}
+.done__mark {
+  width: 54px; height: 54px;
+  margin: 0 auto 1.2rem;
+  border-radius: 50%;
+  background: linear-gradient(100deg, var(--brace), var(--fiamma));
+  position: relative;
+  box-shadow: 0 12px 34px -10px rgba(255, 140, 40, .8);
+}
+.done__mark::after {
+  content: "";
+  position: absolute; left: 19px; top: 14px;
+  width: 12px; height: 22px;
+  border: solid #16060A;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+.done h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 4.5vw, 1.9rem);
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  margin-bottom: .6rem;
+  text-wrap: balance;
+}
+.done p { color: var(--testo-soft); }
+.done__note { font-size: .88rem; margin-top: .8rem; }
+.done .btn { margin-top: 1.6rem; }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.foot {
+  border-top: 1px solid var(--linea);
+  padding: 2.5rem var(--pad) 3rem;
+  text-align: center;
+}
+.foot__brand {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: .04em;
+  font-size: 1.1rem;
+}
+.foot__contact { margin-top: .5rem; color: var(--testo-soft); font-size: .95rem; }
+.foot__contact a { color: var(--fiamma); text-decoration: none; }
+.foot__contact a:hover { text-decoration: underline; }
+.foot__staff {
+  margin-top: .5rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(243, 238, 228, .38);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 620px) {
+  .ticket__row { grid-template-columns: 1fr; }
+  .ticket__row .cell + .cell {
+    border-left: 0;
+    border-top: 1px solid var(--linea);
+  }
+  .hero__content { padding-block: 5rem 7rem; }
+  .hero__scroll { display: none; }
+}
+
+/* =========================================================
+   ACCESSIBILITÀ — motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .hero__embers { display: none; }
+}
