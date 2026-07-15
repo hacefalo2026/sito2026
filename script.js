@@ -29,17 +29,14 @@ const CONFIG = {
 const PAY_DETAILS = {
   "PayPal": () => `
     <p><strong>PayPal</strong> — invia ${CONFIG.QUOTA} a:</p>
-    <p><a href="${CONFIG.PAYPAL_LINK}" target="_blank" rel="noopener">${CONFIG.PAYPAL_LINK}</a></p>
-    <p class="paybox__deadline">Entro il ${CONFIG.SCADENZA}</p>`,
+    <p><a href="${CONFIG.PAYPAL_LINK}" target="_blank" rel="noopener">${CONFIG.PAYPAL_LINK}</a></p>`,
 
   "Bonifico bancario": () => `
     <p><strong>Bonifico bancario</strong> — ${CONFIG.QUOTA}</p>
-    <p>Intestatario, IBAN e causale arrivano nella mail di conferma, subito dopo la prenotazione.</p>
-    <p class="paybox__deadline">Entro il ${CONFIG.SCADENZA}</p>`,
+    <p>Intestatario, IBAN e causale arrivano nella mail di conferma, subito dopo la prenotazione.</p>`,
 
   "Contanti": () => `
-    <p><strong>Contanti</strong> — ${CONFIG.QUOTA} da consegnare a mano a Mattia.</p>
-    <p class="paybox__deadline paybox__deadline--red">Entro il ${CONFIG.SCADENZA_CONTANTI}. Dopo questa data i contanti non sono più accettati.</p>`
+    <p><strong>Contanti</strong> — ${CONFIG.QUOTA} da consegnare a mano a Mattia.</p>`
 };
 
 /* ---------------------------------------------------------
@@ -190,10 +187,7 @@ form.addEventListener("submit", async (e) => {
 function showDone(data) {
   form.hidden = true;
   done.hidden = false;
-  doneNote.textContent =
-    data.pagamento === "Contanti"
-      ? "Hai scelto i contanti: consegna i €20 entro il 10 agosto."
-      : `Metodo scelto: ${data.pagamento}. I dati per il pagamento sono nella mail. Scadenza: 12 agosto.`;
+  doneNote.textContent = `Metodo scelto: ${data.pagamento}.`;
   done.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
